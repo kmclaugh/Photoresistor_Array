@@ -4,6 +4,7 @@
 import re
 import os
 
+#----------------------------------------Find Param Equals----------------------------------------#{{{1
 def find_param_equals(parameter,line):
     """finds the parameter and value for a given line and parameter"""
     regex_string = "{} *= *\S+".format(parameter)
@@ -15,13 +16,17 @@ def find_param_equals(parameter,line):
         return(param_equals)
     else:
         return(False)
+#----------------------------------------END Find Param Equals----------------------------------------#}}}
 
+#----------------------------------------Original Line Class----------------------------------------#{{{1
 class original_line_class:
     """container class for carrying around line and line numbers"""
     def __init__(self,line,line_number):
         self.line = line
         self.number = line_number
+#----------------------------------------End Original Line Class----------------------------------------#}}}
 
+#----------------------------------------Process File----------------------------------------#{{{1
 def process_file(filename,parameter_header_name):
     """Reads the .net file and picks out the parameters one is interested in"""
     file = open(filename,"r")
@@ -47,8 +52,13 @@ def process_file(filename,parameter_header_name):
         line_count += 1 
     file.close()
     return(original_file,parameter_lines)
+#----------------------------------------END Process File----------------------------------------#}}}
 
+#----------------------------------------Param Statement Class----------------------------------------#{{{1
 class param_statement_class:
+    """A class that defines a parameter in a netlist file. For instance:
+            R0=1k"""
+
     def __init__(self,original_line,original_param_equals):
         self.original_line = original_line
         self.param_equals = original_param_equals
@@ -59,7 +69,9 @@ class param_statement_class:
         new_line = original_line_class(new_line,self.original_line.number)
         current_file_list[self.original_line.number] = new_line
         return(current_file_list)
+#----------------------------------------END Param Statement Clas----------------------------------------#}}}
 
+#----------------------------------------Switch Param Equals----------------------------------------#{{{1
 def switch_param_equals(change_params,original_file_list,parameter_lines):
     """Switches parameter equals in the old file with the new given parameters.
         change parameters are given as list in the format (parameter,new_equals)"""
@@ -72,40 +84,30 @@ def switch_param_equals(change_params,original_file_list,parameter_lines):
                     param_statement = param_statement_class(line,orig_param_equals)
                     param_statement.replace_param_equals(change_param[1],current_file_list)
     return(current_file_list)
+#----------------------------------------END Switch Param Equals----------------------------------------#}}}
 
-net_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
-parameter_header_name = "Resistance Parameters"
-return_values = process_file(net_filename,parameter_header_name)
-original_file_list = return_values[0]
-parameter_lines = return_values[1]
-
-
-def change_params_and_write_new_file(change_params,original_file_list=original_file_list,parameter_lines=parameter_lines,filename=net_filename):
-    """Writes the new .net file so it is ready to run"""
-    new_filename = filename[:-4]+"_new"+".net"
-    file = open(new_filename,"w")
-    print(new_filename)
-    current_file_list = switch_param_equals(change_params=change_params,original_file_list=original_file_list,parameter_lines=parameter_lines)
+#----------------------------------------Write New Net File----------------------------------------#{{{1
+def write_new_net_file(current_file_list,original_filename):
+    """Writes the new .net file so it is ready to run. Returns the new linux filename and wine filename"""
+    new_filename_linux = original_filename[:-4]+"_new"+".net"
+    file = open(new_filename_linux,"w")
     for line in current_file_list:
         file.write(line.line+"\n")
     file.close()
-    new_filename = new_filename.split("LTspiceIV/")[-1]
-    print(new_filename)
-    return(new_filename)
+    new_filename_wine = new_filename_linux.split("LTspiceIV/")[-1]
+    return(new_filename_linux,new_filename_wine)
+#----------------------------------------END Write New Net File----------------------------------------#}}}
 
-def run_netlist(filename):
+#----------------------------------------Run Netlist----------------------------------------#{{{1
+def run_netlist(net_filename):
     """Runs the given netlist assuming the netlist is in the LTspiveIV directory"""
-    command = "run_netlist.sh {}".format(filename)
+    command = "run_netlist.sh {}".format(net_filename)
     os.system(command)
+#----------------------------------------END Run Netlist----------------------------------------#}}}
 
-
-change_params = [("R01","5k"),("R11","10k")]
-
-new_net_filename = change_params_and_write_new_file(change_params)
-#run_netlist(new_net_filename)
-
+#----------------------------------------Variable Value Class----------------------------------------#{{{1
 class variable_value_class:
-    """Container class for varibale value pairs"""
+    """Container class for variable-value pairs"""
     def __init__(self,variable,variable_number,variable_type,value=None,file_line=None):
         self.variable = variable
         self.value = value
@@ -125,7 +127,9 @@ class variable_value_class:
             self.unit = "V"
         elif "current" in self.variable_type:
             self.unit = "A"
+#----------------------------------------END Variable Value Class----------------------------------------#}}}
 
+#----------------------------------------Pull Vairable----------------------------------------#{{{1
 def pull_variable(line):
     """Pulls the variable, variable number, and variable type out of the line. Returns a vairable_value_class obj"""
     elements = line.split("\t")
@@ -140,14 +144,18 @@ def pull_variable(line):
     variable_type = elements[2]
     variable_value_pair = variable_value_class(variable=variable,variable_number=variable_number,variable_type=variable_type)
     return(variable_value_pair)
+#----------------------------------------END Pull Vairable----------------------------------------#}}}
 
+#----------------------------------------Pull Value----------------------------------------#{{{1
 def pull_value(line):
     """pulls the float value out of a given value line and returns a float obj"""
     float_regex = re.compile("-*\d.\d+e[-+]\d+")
     string_value = float_regex.findall(line)[0]
     float_value = float(string_value)
     return(float_value)
+#----------------------------------------END Pull Value----------------------------------------#}}}
 
+#----------------------------------------Read Variables----------------------------------------#{{{1
 def read_variables(raw_filename):
     "Read the raw file and collects vairables and values. Returns a list of variable_value_class objects"""
 
@@ -179,8 +187,26 @@ def read_variables(raw_filename):
             variable_values[value_count].value = value
             value_count += 1
     return(variable_values)
+#----------------------------------------END Read Variables----------------------------------------#}}}
 
-raw_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.raw"
+#process original file
+net_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
+parameter_header_name = "Resistance Parameters"
+return_values = process_file(net_filename,parameter_header_name)
+original_file_list = return_values[0]
+parameter_lines = return_values[1]
+
+#change parameters, create and run new file
+change_params = [("R01","5k"),("R11","10k")]
+current_file_list = switch_param_equals(change_params,original_file_list,parameter_lines)
+new_net_filenames = write_new_net_file(current_file_list,original_filename=net_filename)
+new_net_filename_linux = new_net_filenames[0]
+new_net_filename_wine = new_net_filenames[1]
+run_netlist(new_net_filename_wine)
+
+#read results
+raw_filename = new_net_filename_linux.replace(".net",".raw")
+print(raw_filename)
 variable_values =  read_variables(raw_filename)
 
 for variable_value in variable_values:
