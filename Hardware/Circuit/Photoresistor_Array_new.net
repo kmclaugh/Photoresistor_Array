@@ -19,8 +19,8 @@ V0 N001 0 {V0}
 .op
 *************************** Resistance Parameters*******************
 .param
-+R00={Rlight} R10={Rdark}
-+R01=5k R11=10k
++R00={Rdark} R10={Rdark}
++R01={Rdark} R11={Rdark}
 *************************** End Resistance Parameters*************
 .param Rdark=1MEG Rlight=1
 *************************** Voltage Parameters*******************
