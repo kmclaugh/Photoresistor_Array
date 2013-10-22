@@ -67,6 +67,7 @@ def all_combinations(array_size):
     """returns a list of binary strings that represent all possible combinations for the resistors.
         given the size of the array as a tuple (X,Y)."""
     total_resistors = array_size[0]*array_size[1]
+   
     all_combos = ["".join(seq) for seq in itertools.product("01", repeat=total_resistors)]
     return(all_combos)
 
@@ -136,7 +137,6 @@ def one_cycle_photoresitor_test(photoresistor_array,array_size,original_file_lis
         
         this_v_params = make_voltage_cycle_array_values(on_voltage=v,number_of_controls=v_controls)
         current_file_list = switch_param_equals(this_v_params,current_file_list,voltage_parameter_lines)
-        
         #run the file
         new_net_filenames = write_new_net_file(current_file_list=current_file_list,original_filename=original_filename)
         new_net_filename_linux = new_net_filenames[0]
@@ -169,7 +169,9 @@ def interpret_result(result):
     """Determines if the result behaves as expected or not"""
     #pull voltages
     Vcons = pull_variable_type(variable_value_list=result.variable_values_list,variable_base_name="vcon",unit_type="V")
+    print(result.name)
     for Vcon in Vcons:
+        print(Vcon)
         if Vcon.variable == result.on_voltage:
             if Vcon.value != 5.0:
                 print("error with test {} turn on voltage {}".format(result.name,Vcon.variable))
