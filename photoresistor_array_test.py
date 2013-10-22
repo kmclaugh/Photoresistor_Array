@@ -6,17 +6,19 @@ import os
 import itertools
 from python_ltspice_tools import *
 
+#---------------------------------------- Test Creators----------------------------------------#{{{1
 def make_photoresitor_array_values(Photoresistor_Array_Values):
     """Turns a dictionary of photoresistors values into a list of params ready for simulation"""
-    pr_list = []
+    pr_dict = {}
     for key, value in Photoresistor_Array_Values.iteritems():
         if value == 1:
             value = "{Rlight}"
         elif value == 0:
             value = "{Rdark}"
-        this_pair = (key,value)
-        pr_list.append(this_pair)
-    return(pr_list)
+        else:
+            value = str(value)
+        pr_dict[key] = value
+    return(pr_dict)
 
 def make_binary_string_values(binary_string,array_size,base_param_name):
     """converts a binary string to an photorestor array values dictionary."""
@@ -26,7 +28,7 @@ def make_binary_string_values(binary_string,array_size,base_param_name):
     for y in range(0,y_total):
         row = []
         for x in range(0,x_total):
-            param_name = base_param_name + str(x) + str(y)
+            param_name = base_param_name + str(x)+ "_" + str(y)
             row.append(param_name)
         array.append(row)
     photoresistor_array = {}
@@ -54,7 +56,7 @@ def make_specific_test(array_values,base_param_name):
     for y in range(0,y_total):
         row = []
         for x in range(0,x_total):
-            param_name = base_param_name + str(x) + str(y)
+            param_name = base_param_name + str(x) + "_" + str(y)
             row.append(param_name)
         array_names.append(row)
     photoresistor_array = {}
@@ -85,119 +87,147 @@ def max_16_combinations(array_size):
         all_combos.append(this_value)
         total_count += 1
     return(all_combos)
+#----------------------------------------END Test Creators----------------------------------------#}}}
 
+#---------------------------------------- make voltage cycle array values----------------------------------------#{{{1
 def make_voltage_cycle_array_values(on_voltage,number_of_controls):
     """Given the one control voltage integer that should be turns on, this returns the list of voltage
         parameters with all but the given voltage turned off"""
-    v_param_list = []
+    v_param_list = {}
     for v in range(0,number_of_controls):
         vparam_name = "vcon" + str(v)
         if v == on_voltage:
             vvalue = 5
         else:
             vvalue = -5
-        v_param_list.append((vparam_name,str(vvalue)))
+        v_param_list[vparam_name]=str(vvalue)
     return(v_param_list)
-
-#----------------------------------------Results Class----------------------------------------#{{{1
-class result_class:
-    """A container class for a test resuts"""
-    def __init__(self,name,variable_values_list,parameter_conditions_list,test_netlist,on_voltage,pass_fail=None):
-        self.name=name
-        self.variable_values_list = variable_values_list
-        self.parameter_conditions_list = parameter_conditions_list
-        self.pass_fail = pass_fail
-        self.netlist = test_netlist
-        self.on_voltage = on_voltage
-    def __repr__(self):
-        return("{}: {}".format(self.name,self.pass_fail))
-    def __str__(self):
-        return("{}: {}".format(self.name,self.pass_fail))
-
-    def print_vairable_values(self):
-        for variable_value in self.variable_values_list:
-            print(variable_value)
-#----------------------------------------END Results Class----------------------------------------#}}}
+#----------------------------------------END make voltage cycle array value----------------------------------------#}}}
 
 #----------------------------------------One Cylce Photoresitor Array Test----------------------------------------#{{{1
-def one_cycle_photoresitor_test(photoresistor_array,array_size,original_file_list,resistor_parameter_lines,
-                                voltage_parameter_lines,original_filename,test_number=0):
-    """Runs the photoresistor test for the given resistor array parameters.
-        Cycles through the voltages and reads the output"""
-    #change resistor values
-    photorestitor_params = make_photoresitor_array_values(Photoresistor_Array_Values=photoresistor_array)
-    current_file_list = switch_param_equals(photorestitor_params,original_file_list,resistor_parameter_lines)
-    
+def one_cycle_photoresitor_test(photoresistor_array,array_size,netlist,base_test_name):
+    """Run a single cyle of voltages with the given photoresistor values for the given array size. 
+        Returns a list of the resulting the raw_values objects"""
     results = []
-    #cyle voltages, run, and colelct results
-    v_controls = array_size[0] #the number of voltages to turn on
-    for v in range(0,v_controls):
-        test_name = str(test_number) + "." + str(v)
-        print("test number: {}".format(test_name))
+    netlist = netlist.change_parameters(variable_value_dictionary=photoresistor_array)
+    for v in range(0,array_size[1]):
         
-        this_v_params = make_voltage_cycle_array_values(on_voltage=v,number_of_controls=v_controls)
-        current_file_list = switch_param_equals(this_v_params,current_file_list,voltage_parameter_lines)
-        #run the file
-        new_net_filenames = write_new_net_file(current_file_list=current_file_list,original_filename=original_filename)
-        new_net_filename_linux = new_net_filenames[0]
-        new_net_filename_wine = new_net_filenames[1]
-        run_netlist(new_net_filename_wine)
-        print(" ")
+        v_param_list = make_voltage_cycle_array_values(v,array_size[1])
+        new_netlist = netlist.change_parameters(variable_value_dictionary=v_param_list)
+        new_raw_values = new_netlist.run_netlist()
 
-        #read results
-        raw_filename = new_net_filename_linux.replace(".net",".raw")
-        variable_values =  read_variables(raw_filename)
-        this_result = result_class(name=test_name,variable_values_list=variable_values,parameter_conditions_list=[photorestitor_params,this_v_params],
-                                    test_netlist=current_file_list,pass_fail=None,on_voltage="vcon"+str(v))
-        results.append(this_result)
-    
+        this_test_name = base_test_name + "." + str(v)
+        netlist_results = netlist_results_class(new_netlist,new_raw_values,test_name=this_test_name)
+        results.append(netlist_results)
     return(results)
 #----------------------------------------END One Cylce Photoresitor Array Test----------------------------------------#}}}
 
-def pull_variable_type(variable_value_list,variable_base_name,unit_type):
-    """Pulls the all variables of the given type out of the list. for instance:
-        variable_base_name="R" and unit_type="V" would return all resistor voltage values"""
-    selected_variable_list = []
-    for variable_value in variable_value_list:
-        if variable_base_name in variable_value.variable:
-            if variable_value.unit == unit_type:
-                selected_variable_list.append(variable_value)
-    return(selected_variable_list)
+#----------------------------------------Netlist-Results Class----------------------------------------#{{{1
+class netlist_results_class:
+    """A class containing both the netlist and resulting raw file for one cycle of a photoresistor array test.
+        Methods for verifying the outputs match the input"""
+    def __init__(self,netlist,raw_values,test_name):
+        
+        self.netlist= netlist
+        self.raw_values = raw_values
+        self.test_name = test_name
 
+        self.passed = "Passed"
+        self.report = []
+        self.error_report = []
+        self.verify_cycle_routine()
 
-def interpret_result(result):
-    """Determines if the result behaves as expected or not"""
-    #pull voltages
-    Vcons = pull_variable_type(variable_value_list=result.variable_values_list,variable_base_name="vcon",unit_type="V")
-    print(result.name)
-    for Vcon in Vcons:
-        print(Vcon)
-        if Vcon.variable == result.on_voltage:
-            if Vcon.value != 5.0:
-                print("error with test {} turn on voltage {}".format(result.name,Vcon.variable))
+    #----------------------------------------Verify Cycle Routine----------------------------------------#{{{2
+    def verify_cycle_routine(self):
+        """Checks that the resulting voltages correspend as expected with the resistances
+            and voltages contaned in the netlist and raw_values objects. Checks that the only one input is on
+            and the voltages for the output and within a given expected range based on the resistances."""
+        #Test values
+        Vcon_on = "5"
+        Vcon_off = "-5"
+        Vread_on = 4.0 #V
+        Vread_off = 0.05 #V
+
+        ##Collect input resistance values and makes sure only 1 Vcon is turned on
+        xinput_resistances = {} #input resistances grouped by x values
+        found_von = False
+        for variable, parameter_statement_obj in self.netlist.parameters.iteritems():
+            if "vcon" in variable:
+                control_number = int(''.join(x for x in variable if x.isdigit()))
+                if parameter_statement_obj.value == Vcon_on:
+                    if found_von == False:
+                        self.von = control_number
+                        found_von = True
+                    else:
+                        self.passed = "Failed"
+                        self.error_report.append("Error: Two Vcon were turned on")
+            if "R" in variable:
+                if "dark" in variable or "light" in variable:
+                    pass
+                elif "load" in variable:
+                    pass
+                else:
+                    resistor_tuple = variable.split("_")
+                    resistor_x = int(''.join(x for x in resistor_tuple[0] if x.isdigit()))
+                    resistor_y = int(''.join(y for y in resistor_tuple[1] if y.isdigit()))
+                    #if the x value is already in the dictionary append the param statement. If makes the new xkey
+                    try:
+                        xinput_resistances[str(resistor_x)].append((parameter_statement_obj,resistor_y))
+                    except:
+                        xinput_resistances[str(resistor_x)] = [(parameter_statement_obj,resistor_y)]
+        
+        ##Verify read voltages of the resistors connected to the Von are what they should be
+        if found_von == False:
+            self.passed = "Failed"
+            self.error_report.append("Error: No Vcon were turned on")
         else:
-            if Vcon.value != -5.0:
-                print("error with test {} turn off voltage {}".format(result.name,Vcon.variable))
+            on_resistors = xinput_resistances[str(self.von)]
+            for resistor in on_resistors:
+                read_node = "read{}".format(resistor[1])
+                read_node = self.raw_values.node_values[read_node]
+                if resistor[0].value == "{Rlight}":
+                    if read_node.value <= Vread_on:
+                        error = (resistor[0],read_node)
+                        self.error_report.append(error)
+                        self.passed = "Failed"
+                    else:
+                        report = (resistor[0],read_node)
+                        self.report.append(report)
+                elif resistor[0].value == "{Rdark}":
+                    if read_node.value >= Vread_off:
+                        error = (resistor[0],read_node)
+                        self.error_report.append(error)
+                        self.passed = "Failed"
+                    else:
+                        report = (resistor[0],read_node)
+                        self.report.append(report)
+    #----------------------------------------END Verify Cycle Routine----------------------------------------#}}}
+    
+#----------------------------------------END Netlist-Results Class----------------------------------------#}}}                
 
 
 #process original file and get resistor and voltage parameters
-net_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
-original_file_list = process_file(net_filename)
-resistor_parameter_header_name = "Resistance Parameters"
-resistor_parameter_lines = read_parameter_lines(original_lines_list=original_file_list,parameter_header_name=resistor_parameter_header_name)
-voltage_parameter_header_name = "Voltage Parameters"
-voltage_parameter_lines = read_parameter_lines(original_lines_list=original_file_list,parameter_header_name=voltage_parameter_header_name)
+original_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
+original_netlist = netlist_class(original_filename)
+array_size = (3,3)
 
-#Make photoresistor array values
-array_size = (2,2)
+#array_values = [[0,1],[1,0]]
+#photoresistor_array = make_specific_test(array_values,"R")
+
+#Combinations test
 combinations = max_16_combinations(array_size)
-Photoresistor_Array_Values = make_binary_string_values(binary_string=combinations[-1],array_size=array_size,base_param_name="R")
+all_results = []
+test_counter = 1
+for combination in combinations:
+    photoresistor_array = make_binary_string_values(binary_string=combinations[-1],array_size=array_size,base_param_name="R")
+    photoresistor_array = make_photoresitor_array_values(photoresistor_array)
+    #Run photoresitor test
+    results = one_cycle_photoresitor_test(photoresistor_array=photoresistor_array,array_size=array_size,netlist=original_netlist,
+                                        base_test_name=str(test_counter))
+    all_results += results
+    test_counter += 1
+    print(test_counter)
 
-#Run photoresitor test
-results = one_cycle_photoresitor_test(photoresistor_array=Photoresistor_Array_Values,array_size=array_size,original_file_list=original_file_list,
-                    resistor_parameter_lines=resistor_parameter_lines,voltage_parameter_lines=voltage_parameter_lines,
-                    original_filename=net_filename,test_number=1)
-
-for result in results:
-    result = interpret_result(result)
-
+for result in all_results:
+    print(result.test_name,result.passed)
+    
