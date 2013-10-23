@@ -1,0 +1,24 @@
+Version 4
+SymbolType BLOCK
+LINE Normal 16 16 16 33
+LINE Normal 16 96 16 82
+LINE Normal -10 48 -48 48
+LINE Normal -22 45 -10 48
+LINE Normal -22 51 -22 45
+LINE Normal -10 48 -22 51
+LINE Normal 33 64 6 48
+LINE Normal 7 75 33 64
+LINE Normal 16 82 7 75
+LINE Normal 32 39 6 48
+LINE Normal 16 33 32 39
+CIRCLE Normal 44 88 -11 27
+WINDOW 0 44 58 Left 2
+PIN -48 48 NONE 8
+PINATTR PinName Inlux
+PINATTR SpiceOrder 1
+PIN 16 16 NONE 0
+PINATTR PinName R+
+PINATTR SpiceOrder 2
+PIN 16 96 NONE 0
+PINATTR PinName R-
+PINATTR SpiceOrder 3
