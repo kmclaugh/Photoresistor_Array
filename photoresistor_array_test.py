@@ -12,9 +12,9 @@ def make_photoresitor_array_values(Photoresistor_Array_Values):
     pr_dict = {}
     for key, value in Photoresistor_Array_Values.iteritems():
         if value == 1:
-            value = "{Rlight}"
+            value = "100"
         elif value == 0:
-            value = "{Rdark}"
+            value = "0"
         else:
             value = str(value)
         pr_dict[key] = value
@@ -132,11 +132,15 @@ class netlist_results_class:
         self.raw_values = raw_values
         self.test_name = test_name
 
+        #Dummy values to these attributes placed here for easy reference
         self.passed = "Passed"
         self.report = []
         self.error_report = []
-        self.verify_cycle_routine()
+        self.input_resistances = {} #of list of columns of resistor parameters statements
+        self.vcontrols = []
 
+        self.verify_cycle_routine()
+ 
     #----------------------------------------Verify Cycle Routine----------------------------------------#{{{2
     def verify_cycle_routine(self):
         """Checks that the resulting voltages correspend as expected with the resistances
@@ -150,6 +154,7 @@ class netlist_results_class:
 
         ##Collect input resistance values and makes sure only 1 Vcon is turned on
         xinput_resistances = {} #input resistances grouped by x values
+        vcontrols = []
         found_von = False
         for variable, parameter_statement_obj in self.netlist.parameters.iteritems():
             if "vcon" in variable:
@@ -161,10 +166,9 @@ class netlist_results_class:
                     else:
                         self.passed = "Failed"
                         self.error_report.append("Error: Two Vcon were turned on")
-            if "R" in variable:
-                if "dark" in variable or "light" in variable:
-                    pass
-                elif "load" in variable:
+                vcontrols.append(parameter_statement_obj)
+            if "lux" in variable:
+                if "load" in variable:
                     pass
                 else:
                     resistor_tuple = variable.split("_")
@@ -176,6 +180,10 @@ class netlist_results_class:
                     except:
                         xinput_resistances[str(resistor_x)] = [(parameter_statement_obj,resistor_y)]
         
+        #save the inputs for the reports
+        self.input_resistances = xinput_resistances
+        self.vcontrols = vcontrols
+
         ##Verify read voltages of the resistors connected to the Von are what they should be
         if found_von == False:
             self.passed = "Failed"
@@ -185,7 +193,7 @@ class netlist_results_class:
             for resistor in on_resistors:
                 read_node = "read{}".format(resistor[1])
                 read_node = self.raw_values.node_values[read_node]
-                if resistor[0].value == "{Rlight}":
+                if resistor[0].value == "100":
                     if read_node.value <= Vread_on:
                         error = (resistor[0],read_node)
                         self.error_report.append(error)
@@ -193,7 +201,7 @@ class netlist_results_class:
                     else:
                         report = (resistor[0],read_node)
                         self.report.append(report)
-                elif resistor[0].value == "{Rdark}":
+                elif resistor[0].value == "0":
                     if read_node.value >= Vread_off:
                         error = (resistor[0],read_node)
                         self.error_report.append(error)
@@ -202,32 +210,99 @@ class netlist_results_class:
                         report = (resistor[0],read_node)
                         self.report.append(report)
     #----------------------------------------END Verify Cycle Routine----------------------------------------#}}}
+   
+    def resistance_parameter_string(self):
+        """Organizes the resitance parameters by colomun and returns a string for easy readibility"""
+        row_total = len(self.input_resistances.itervalues().next())
+        column_total = len(self.input_resistances)
+        
+        #make the empty string array of the right size
+        a_row = []
+        row_format_string = ""
+        for column_number in range(0,column_total):
+            a_row.append(0)
+            row_format_string += "%15s"
+        string_array = []
+        for row_number in range(0,row_total):
+            string_array.append(a_row)
+
+        #populate the array with resistor parameter statements
+        for column_number in range(0,column_total):
+            this_column = self.input_resistances[str(column_number)]
+            for row_number in range(0,row_total):
+                stored_value = this_column[row_number] #(param_statement,row_number)
+                string_array[stored_value[1]][column_number] = stored_value[0]
+        
+        resistor_string = ""
+        for row in string_array:
+            row_string = row_format_string % tuple(row)
+            resistor_string += row_string + "\n"
+
+        self.row_format_string = row_format_string
+        return(resistor_string)
+
+    def report_file_string(self):
+        """generates the string to be inserted into the report"""
+        final_string = "Test {} {}\n".format(self.test_name,self.passed)
+        resistor_string = self.resistance_parameter_string()
+        voltage_string = self.row_format_string % (self.vcontrols[0],self.vcontrols[2],self.vcontrols[1]) +"\n" #this is a bad hack
+        final_string += voltage_string
+        final_string += resistor_string
+        
+        report_string = ""
+        for statement in self.report:
+            report_string +=  str(statement[1]) + "\n"
+        final_string += report_string
+        
+        return(final_string)
     
+           
+
 #----------------------------------------END Netlist-Results Class----------------------------------------#}}}                
 
 
 #process original file and get resistor and voltage parameters
-original_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
+original_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array_Small.net"
 original_netlist = netlist_class(original_filename)
 array_size = (3,3)
 
-#array_values = [[0,1],[1,0]]
-#photoresistor_array = make_specific_test(array_values,"R")
+#array_values = [[1,0,1],[1,1,0]]
+#photoresistor_array = make_specific_test(array_values,"lux")
+#all_results = one_cycle_photoresitor_test(photoresistor_array=photoresistor_array,array_size=array_size,netlist=original_netlist,
+#                                        base_test_name=str(1))
 
-#Combinations test
+def write_report(results,report_filename,error_filename):
+    """Write the report to a file in an intellegible manner"""
+    report_file = open(report_filename,"w")
+    error_file = open(error_filename,"w")
+    for result in results:
+        print(result.test_name,result.passed)
+        report_string = result.report_file_string()
+        report_file.write(report_string)
+        if result.passed == "Failed":
+            error_file.write(report_string)
+    report_file.close()
+    error_file.close()
+
+##Combinations test
 combinations = max_16_combinations(array_size)
 all_results = []
 test_counter = 1
 for combination in combinations:
-    photoresistor_array = make_binary_string_values(binary_string=combinations[-1],array_size=array_size,base_param_name="R")
+    photoresistor_array = make_binary_string_values(binary_string=combinations[-1],array_size=array_size,base_param_name="lux")
     photoresistor_array = make_photoresitor_array_values(photoresistor_array)
     #Run photoresitor test
     results = one_cycle_photoresitor_test(photoresistor_array=photoresistor_array,array_size=array_size,netlist=original_netlist,
                                         base_test_name=str(test_counter))
     all_results += results
     test_counter += 1
-    print(test_counter)
 
-for result in all_results:
-    print(result.test_name,result.passed)
+
+
+error_filename = "/home/kevin/Projects/Pill_Case/Design/Photoresistor_Array/error_report"
+report_filename = "/home/kevin/Projects/Pill_Case/Design/Photoresistor_Array/results_report"
+
+
+write_report(all_results,report_filename,error_filename)
+    
     

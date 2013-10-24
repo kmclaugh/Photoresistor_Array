@@ -1,0 +1,304 @@
+Test 1.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 1.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 1.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 2.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 2.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 2.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 3.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 3.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 3.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 4.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 4.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 4.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 5.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 5.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 5.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 6.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 6.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 6.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 7.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 7.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 7.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 8.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 8.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 8.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 9.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 9.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 9.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 10.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 10.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 10.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 11.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 11.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 11.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 12.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 12.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 12.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 13.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 13.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 13.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 14.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 14.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 14.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 15.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 15.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 15.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
+Test 16.0 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 16.1 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+Test 16.2 Failed
+       vcon0=-5       vcon1=-5        vcon2=5
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+       lux0_1=0       lux1_1=0     lux2_1=100
+read2 = 4.16290355354 V
+read1 = 4.16290355354 V
