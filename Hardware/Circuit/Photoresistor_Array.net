@@ -1,0 +1,136 @@
+* C:\Program Files\LTC\LTspiceIV\Photoresistor_Array\Photoresistor_Array.asc
+Rload0 Read0 0 {Rload}
+XU0 Vcon0 A_Out0 arduino_output
+Vcon0 Vcon0 0 {Vcon0}
+D0 P001 Read0 D
+Vl0 P002 0 {lux0_0}
+XU1 Vcon1 A_Out1 arduino_output
+Vcon1 Vcon1 0 {Vcon1}
+D1 P003 Read0 D
+Vl1 P004 0 {lux1_0}
+XU2 Vcon2 A_Out2 arduino_output
+Vcon2 Vcon2 0 {Vcon2}
+D2 P005 Read0 D
+Vl2 P006 0 {lux2_0}
+XU3 Vcon3 A_Out3 arduino_output
+Vcon3 Vcon3 0 {Vcon3}
+D3 P007 Read0 D
+Vl3 P008 0 {lux3_0}
+XU4 Vcon4 A_Out4 arduino_output
+Vcon4 Vcon4 0 {Vcon4}
+D4 P009 Read0 D
+Vl4 P010 0 {lux4_0}
+XU5 Vcon5 A_Out5 arduino_output
+Vcon5 Vcon5 0 {Vcon5}
+D5 P011 Read0 D
+Vl5 P012 0 {lux5_0}
+XU6 Vcon6 A_Out6 arduino_output
+Vcon6 Vcon6 0 {Vcon6}
+D6 P013 Read0 D
+Vl6 P014 0 {lux6_0}
+XX0 P002 A_Out0 P001 photoresistor
+XX1 P004 A_Out1 P003 photoresistor
+XX2 P006 A_Out2 P005 photoresistor
+XX3 P008 A_Out3 P007 photoresistor
+XX4 P010 A_Out4 P009 photoresistor
+XX5 P012 A_Out5 P011 photoresistor
+XX6 P014 A_Out6 P013 photoresistor
+D7 P015 Read1 D
+Vl7 P016 0 {lux0_1}
+D8 P017 Read1 D
+Vl8 P018 0 {lux1_1}
+D9 P019 Read1 D
+Vl9 P020 0 {lux2_1}
+D10 P021 Read1 D
+Vl10 P022 0 {lux3_1}
+D11 P023 Read1 D
+Vl11 P024 0 {lux4_1}
+D12 P025 Read1 D
+Vl12 P026 0 {lux5_1}
+D13 P027 Read1 D
+Vl13 P028 0 {lux6_1}
+XX7 P016 A_Out0 P015 photoresistor
+XX8 P018 A_Out1 P017 photoresistor
+XX9 P020 A_Out2 P019 photoresistor
+XX10 P022 A_Out3 P021 photoresistor
+XX11 P024 A_Out4 P023 photoresistor
+XX12 P026 A_Out5 P025 photoresistor
+XX13 P028 A_Out6 P027 photoresistor
+D14 P029 Read2 D
+Vl14 P030 0 {lux0_2}
+D15 P031 Read2 D
+Vl15 P032 0 {lux1_2}
+D16 P033 Read2 D
+Vl16 P034 0 {lux2_2}
+D17 P035 Read2 D
+Vl17 P036 0 {lux3_2}
+D18 P037 Read2 D
+Vl18 P038 0 {lux4_2}
+D19 P039 Read2 D
+Vl19 P040 0 {lux5_2}
+D20 P041 Read2 D
+Vl20 P042 0 {lux6_2}
+XX14 P030 A_Out0 P029 photoresistor
+XX15 P032 A_Out1 P031 photoresistor
+XX16 P034 A_Out2 P033 photoresistor
+XX17 P036 A_Out3 P035 photoresistor
+XX18 P038 A_Out4 P037 photoresistor
+XX19 P040 A_Out5 P039 photoresistor
+XX20 P042 A_Out6 P041 photoresistor
+D21 P043 Read3 D
+Vl21 P044 0 {lux0_3}
+D22 P045 Read3 D
+Vl22 P046 0 {lux1_3}
+D23 P047 Read3 D
+Vl23 P048 0 {lux2_3}
+D24 P049 Read3 D
+Vl24 P050 0 {lux3_3}
+D25 P051 Read3 D
+Vl25 P052 0 {lux4_3}
+D26 P053 Read3 D
+Vl26 P054 0 {lux5_3}
+D27 P055 Read3 D
+Vl27 P056 0 {lux6_3}
+XX21 P044 A_Out0 P043 photoresistor
+XX22 P046 A_Out1 P045 photoresistor
+XX23 P048 A_Out2 P047 photoresistor
+XX24 P050 A_Out3 P049 photoresistor
+XX25 P052 A_Out4 P051 photoresistor
+XX26 P054 A_Out5 P053 photoresistor
+XX27 P056 A_Out6 P055 photoresistor
+Rload1 Read1 0 {Rload}
+Rload2 Read2 0 {Rload}
+Rload3 Read3 0 {Rload}
+
+* block symbol definitions
+.subckt photoresistor Lux R+ R-
+B1 R+ R- I=V(R+,R-)*V(l1)**{expon}/{rlum1}
+E1 N001 0 Lux 0 1
+Rdark R+ R- {Rdark}
+C1 l1 0 Q=51.95u*ln(1+ABS(x)*7.8E-3)
+C2 R+ R- 3.5p
+D2 N001 l1 Dsw
+R1 Lux 0 1K
+.model dsw D(Ron=17k Roff=100k Vfwd=0)
+.param Rdark=5MEG
+.param expon=.55 rlum1=80k
+.ends photoresistor
+
+.model D D
+.lib C:\Program Files\LTC\LTspiceIV\lib\cmp\standard.dio
+.include C:\Program Files\LTC\LTspiceIV\lib\sub\Arduino_Output.sub
+.op
+*********************************** Lux Parameters***********************************
+.param
++lux0_0=0 lux1_0=0 lux2_0=0 lux3_0=100 lux4_0=0 lux5_0=0 lux6_0=0
++lux0_1=0 lux1_1=0 lux2_1=0 lux3_1=100 lux4_1=0 lux5_1=0 lux6_1=0
++lux0_2=0 lux1_2=0 lux2_2=0 lux3_2=100 lux4_2=0 lux5_2=0 lux6_2=0
++lux0_3=0 lux1_3=0 lux2_3=0 lux3_3=100 lux4_3=0 lux5_3=0 lux6_3=0
+*********************************** End Lux Parameters*****************************
+.param Rdark=1MEG Rlight=1 Rload=100k
+****************************** Voltage Parameters*******************************
+.param
++vcon0=5 vcon1=-5 vcon2=-5 vcon3=-5 vcon4=-5 vcon5=-5 vcon6=-5
+*************************** End Voltage Parameters***************************
+.backanno
+.end
