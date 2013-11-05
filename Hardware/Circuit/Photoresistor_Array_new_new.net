@@ -122,15 +122,15 @@ R1 Lux 0 1K
 .op
 *********************************** Lux Parameters***********************************
 .param
-+lux0_0=0 lux1_0=0 lux2_0=0 lux3_0=0 lux4_0=0 lux5_0=0 lux6_0=0
-+lux0_1=0 lux1_1=0 lux2_1=0 lux3_1=0 lux4_1=0 lux5_1=0 lux6_1=0
-+lux0_2=0 lux1_2=0 lux2_2=0 lux3_2=0 lux4_2=0 lux5_2=0 lux6_2=0
-+lux0_3=0 lux1_3=0 lux2_3=0 lux3_3=0 lux4_3=0 lux5_3=0 lux6_3=100
++lux0_0=100 lux1_0=100 lux2_0=100 lux3_0=100 lux4_0=100 lux5_0=100 lux6_0=100
++lux0_1=100 lux1_1=100 lux2_1=100 lux3_1=100 lux4_1=100 lux5_1=100 lux6_1=100
++lux0_2=100 lux1_2=100 lux2_2=100 lux3_2=100 lux4_2=100 lux5_2=100 lux6_2=100
++lux0_3=100 lux1_3=100 lux2_3=100 lux3_3=100 lux4_3=100 lux5_3=100 lux6_3=100
 *********************************** End Lux Parameters*****************************
 .param Rdark=1MEG Rlight=1 Rload=100k
 ****************************** Voltage Parameters*******************************
 .param
-+vcon0=-5 vcon1=-5 vcon2=-5 vcon3=-5 vcon4=-5 vcon5=-5 vcon6=5
++vcon0=-5 vcon1=5 vcon2=-5 vcon3=-5 vcon4=-5 vcon5=-5 vcon6=-5
 *************************** End Voltage Parameters***************************
 .backanno
 .end

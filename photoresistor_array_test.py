@@ -83,17 +83,18 @@ class netlist_results_class:
             on_resistors = xinput_resistances[str(self.von)]
             for resistor in on_resistors:
                 read_node = "read{}".format(resistor[1])
+                
                 read_node = self.raw_values.node_values[read_node]
-                if resistor[0].value == "100":
-                    if read_node.value <= Vread_on:
+                if resistor[0].value[0] == "100":
+                    if read_node.values[0] <= Vread_on:
                         error = (resistor[0],read_node)
                         self.error_report.append(error)
                         self.passed = "Failed"
                     else:
                         report = (resistor[0],read_node)
                         self.report.append(report)
-                elif resistor[0].value == "0":
-                    if read_node.value >= Vread_off:
+                elif resistor[0].value[0] == "0":
+                    if read_node.values[0] >= Vread_off:
                         error = (resistor[0],read_node)
                         self.error_report.append(error)
                         self.passed = "Failed"

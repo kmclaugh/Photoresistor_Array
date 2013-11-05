@@ -1,0 +1,4 @@
+minimum trace for 0.7A = 0.508mm
+minimum space betwen traces = 0.254mm
+total space for one trace = 0.508+0.254=.762=.76mm
+
