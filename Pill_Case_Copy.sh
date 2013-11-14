@@ -58,6 +58,8 @@ find . -iname "*.py" -exec mv {} Circuit \;
 cd $PROJECT_DIRECTORY
 rm -rfv Mechanical
 cd "/home/kevin/Google Drive/Projects/Pill Case/Engineering"
+insync force_sync Mechanical
+sleep 5
 cp -avr Mechanical $PROJECT_DIRECTORY
 ######################END Mechanical##########################
 
