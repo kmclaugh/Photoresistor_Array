@@ -349,8 +349,8 @@ max_combos_test = 16
 original_filename = "/home/kevin/.wine/drive_c/Program Files/LTC/LTspiceIV/Photoresistor_Array/Photoresistor_Array.net"
 current_date = datetime.datetime.today()
 current_date_time_string = current_date.strftime("%m-%d-%Y-%H-%M")
-error_filename = "/home/kevin/Projects/Pill_Case/Design/Photoresistor_Array/Reports/error_report-{}.txt".format(current_date_time_string)
-report_filename = "/home/kevin/Projects/Pill_Case/Design/Photoresistor_Array/Reports/results_report-{}.txt".format(current_date_time_string)
+error_filename = "Reports/error_report-{}.txt".format(current_date_time_string)
+report_filename = "Reports/results_report-{}.txt".format(current_date_time_string)
 
 #process original file and get resistor and voltage parameters
 original_netlist = netlist_class(original_filename)
