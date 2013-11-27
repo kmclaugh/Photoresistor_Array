@@ -14,8 +14,8 @@ import math
 Iv = None
 Lflux = 29
 Aview = 125
-x = 1
-y = 1
+x = 10
+y = 10
 
 def Iv_to_Ev(Iv,x,y):
     """Convert the Luminous Intensity of the LED to the Illuminance seen by the LDR"""
@@ -24,11 +24,21 @@ def Iv_to_Ev(Iv,x,y):
 
 def Lflux_to_Ev(Lflux,Aview,x,y):
     """Convert the Luminous Flux of the LED to the Illuminance seen by the LDR"""
-    denominator1 = (2*math.pi) * (1 - math.cos(Aview/2))
-    term1 = Lflux/denominator1
+    x = x * .001
+    y = y * .001
+    denominator1 = float(2*math.pi) * (1 - math.cos(Aview/2))
+    term1 = float(Lflux)/denominator1
     
-    term2 = x/(pow(x,2) + pow(y,2))
+    term2 = float(x)/float(pow(x,2) + pow(y,2))
 
     Ev = term1 * term2
 
     return(Ev)
+
+if Iv != None:
+    result = Iv_to_Ev(Iv,x,y)
+elif Lflux != None:
+    result = Lflux_to_Ev(Lflux,Aview,x,y)
+
+print(result)
+
