@@ -1,0 +1,36 @@
+* C:\Program Files\LTC\LTspiceIV\Photoresistor_Array\Photoresistor_Test.asc
+Rload0 Read0 0 100k
+Vcon0 Vcon0 0 {Vcon0}
+DI0 P001 Read0 1N914
+Vl0 P002 0 {lux0_0}
+XX0 P002 Vcon0 P001 photoresistor
+
+* block symbol definitions
+.subckt photoresistor Lux R+ R-
+B1 R+ R- I=V(R+,R-)*V(l1)**{expon}/{rlum1}
+E1 N001 0 Lux 0 1
+Rdark R+ R- {Rdark}
+C1 l1 0 Q=51.95u*ln(1+ABS(x)*7.8E-3)
+C2 R+ R- 3.5p
+D2 N001 l1 Dsw
+R1 Lux 0 1K
+.model dsw D(Ron=17k Roff=100k Vfwd=0)
+.param Rdark=5MEG
+.param expon=.55 rlum1=80k
+.ends photoresistor
+
+.model D D
+.lib C:\Program Files\LTC\LTspiceIV\lib\cmp\standard.dio
+.op
+*********************************** Lux Parameters***********************************
+.param
++lux0_0=5.0
+*********************************** End Lux Parameters*****************************
+.param Rdark=1MEG Rlight=1
+****************************** Voltage Parameters*******************************
+.param
++vcon0=5
+*************************** End Voltage Parameters***************************
+;dc Vl0 1m 5000 1
+.backanno
+.end
