@@ -74,11 +74,11 @@ cp -a . $LED_RES_DIR/Hardware/Circuit/
 #LTSpice Files
 
 #Diptrace Files
-#cd "$DIPTRACEFILES"
-#cd Projects/LED_Array
+cd "$DIPTRACEFILES"
+cd Projects/LED_Array
 
 #Copying current files to project directory
-#cp -a . $LED_RES_DIR/Hardware/Circuit/
+cp -a . $LED_RES_DIR/Hardware/Circuit/
 #End Diptrace
 
 #move the saved files back into the lower directory
@@ -86,22 +86,22 @@ cd $LED_RES_DIR/Hardware
 find . -iname "*.py" -exec mv {} Circuit \;
 
 #Arduino Files
-#cd $LED_RES_DIR/Code/Arduino_Code
+cd $LED_RES_DIR/Code/Arduino_Code
 #Moving all files with .py for preservation
-#find . -iname "*.py" -exec mv {} ../ \;
-#cd ../
+find . -iname "*.py" -exec mv {} ../ \;
+cd ../
 
 #Removing all files. 
-#rm -rfv Arduino_Code/*
+rm -rfv Arduino_Code/*
 #cd to the directory with the current files
-#cd ~/Arduino/Photoresistor_Modules
+cd ~/Arduino/LED_Array
 
 #Copying current files to project directory
-#cp -a . $LED_RES_DIR/Code/Arduino_Code
-#cd $LED_RES_DIR/Code
+cp -a . $LED_RES_DIR/Code/Arduino_Code
+cd $LED_RES_DIR/Code
 
 #move the saved files back into the lower directory
-#find . -iname "*.py" -exec mv {} Circuit \;
+find . -iname "*.py" -exec mv {} Circuit \;
 
 #End Arduino Files 
 
