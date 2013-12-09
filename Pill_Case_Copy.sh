@@ -1,9 +1,10 @@
 #!/bin/bash
 #Save directory paths
-PROJECT_DIRECTORY=~/Projects/Pill_Case
+source ~/.bashrc
+
 
 ############################### Photoresistor Directory ########################
-PHOTO_RES_DIR=$PROJECT_DIRECTORY/Electrical/Photoresistor_Array
+PHOTO_RES_DIR=$PILL_CASE/Electrical/Photoresistor_Array
 #Circuit Directory
 cd $PHOTO_RES_DIR/Hardware/Circuit
 
@@ -41,7 +42,7 @@ cd ../
 #Removing all files. 
 rm -rfv Arduino_Code/*
 #cd to the directory with the current files
-cd ~/Arduino/Photoresistor_Modules
+cd $ARDUINO_SKETCHBOOK/Photoresistor_Modules
 
 #Copying current files to project directory
 cp -a . $PHOTO_RES_DIR/Code/Arduino_Code
@@ -56,7 +57,7 @@ find . -iname "*.py" -exec mv {} Circuit \;
 
 
 ############################### LED Directory ########################
-LED_RES_DIR=$PROJECT_DIRECTORY/Electrical/LED_Array
+LED_RES_DIR=$PILL_CASE/Electrical/LED_Array
 #Circuit Directory
 cd $LED_RES_DIR/Hardware/Circuit
 
@@ -94,7 +95,7 @@ cd ../
 #Removing all files. 
 rm -rfv Arduino_Code/*
 #cd to the directory with the current files
-cd ~/Arduino/LED_Array
+cd $ARDUINO_SKETCHBOOK/LED_Array
 
 #Copying current files to project directory
 cp -a . $LED_RES_DIR/Code/Arduino_Code
@@ -107,13 +108,28 @@ find . -iname "*.py" -exec mv {} Circuit \;
 
 ######################END LED Array###################
 
+#####################Arduino Directory####################
+ARDUINO_DIR=$PILL_CASE/Electrical/Arduino
+#Arduino Files
+cd $ARDUINO_DIR/Code
+
+#Removing all files. 
+rm -rfv *
+#cd to the directory with the current files
+cd $ARDUINO_SKETCHBOOK/Pill_Case
+
+#Copying current files to project directory
+cp -a . $ARDUINO_DIR/Code
+cd $ARDUINO_DIR/Code
+
+
 ######################Mechanical###############################
-cd $PROJECT_DIRECTORY
+cd $PILL_CASE
 rm -rfv Mechanical
 cd "/home/kevin/Google Drive/Projects/Pill Case/Engineering"
 insync force_sync Mechanical
 sleep 5
-cp -avr Mechanical $PROJECT_DIRECTORY
+cp -avr Mechanical $PILL_CASE
 ######################END Mechanical##########################
 
 

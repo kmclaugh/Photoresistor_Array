@@ -1,0 +1,23 @@
+// electric imp device code
+server.log("Device Started");
+ 
+arduino <- hardware.uart57;
+ 
+function arduinoData() {
+    local b = arduino.read();
+    while(b != -1) {
+        server.log(b);
+        b = arduino.read();
+    }
+}
+ 
+arduino.configure(19200, 8, PARITY_NONE, 1, NO_CTSRTS, arduinoData);
+ 
+ 
+//function blink(state) {
+//    server.log("Setting LED to: " + state);
+//    arduino.write(state);
+//    imp.wakeup(1.0, function() { blink(1-state); });
+//} 
+
+//blink(1);

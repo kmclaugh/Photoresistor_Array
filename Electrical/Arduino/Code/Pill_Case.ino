@@ -4,7 +4,9 @@
 #define ARRAY_Y 3
 
 /*************Electric Imp Declarations*********/
-SoftwareSerial electricimpSerial(8,9);
+const int Imp_RX = 8;
+const int Imp_TX = 9;
+SoftwareSerial electricimpSerial(Imp_RX,Imp_TX);
 /*************END Electric Imp Declarations*****/
 
 /**********LED Declarations*************************/ 
@@ -55,7 +57,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Set up");
   //Electric Imp Configure
-  electricimpSerial.begin(9600);    // configure imp serial
+  electricimpSerial.begin(19200);    // configure imp serial
   
   //Configure LED Pins
   pinMode(LED_S0, OUTPUT);
@@ -91,24 +93,30 @@ void loop() {
   print_pills();  
   //Send the voltage info to the imp
   send_state();
-  
-  delay(1000);  
+  delay(1000);
+
 }//end loop
 
 
 /****************************************Connection Functions*****************************/
 void send_state() {
-  /*Sends the states over to the electric imp via UART*/
+  /*Sends the states over to the electric imp via UART by bitmasking them to a single int
+    and sending them using the Serial.write function*/
   int statex_y;
+  int counter = 0;
+  int send_number = 0;
+  int this_bit;
   for (int y = 0; y < ARRAY_Y; y++){
     for (int x = 0; x < ARRAY_X; x++){
       statex_y = *LDR_states_array[y][x];
-      electricimpSerial.write(statex_y);
-      delay(100);
-    }//end x
-    electricimpSerial.write(100);
-    delay(100);
+      this_bit = statex_y * pow(2,counter)+0.25;
+      send_number = send_number + this_bit;
+      counter ++;
+      }//end x
   }//end y
+  //Serial.print(send_number,BIN);Serial.print(" ");Serial.println(send_number);
+  electricimpSerial.write(send_number);
+  delay(10);
 }//end send voltage
 /****************************************END Connection Functions*****************************/
 
