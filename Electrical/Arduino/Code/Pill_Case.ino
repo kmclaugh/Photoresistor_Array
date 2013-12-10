@@ -87,13 +87,19 @@ void setup() {
 void loop() {
   
   //Check the state of all the pill
-  Serial.println("Pill Check");
-  check_all_pills();
-  //Print them to the USB-Serial Monitor
-  print_pills();  
-  //Send the voltage info to the imp
-  send_state();
-  delay(1000);
+  if (electricimpSerial.available () > 0) {
+    int recieved_data = electricimpSerial.read();
+    Serial.println(recieved_data);
+    if (recieved_data == 105){
+      Serial.println("Pill Check");
+      check_all_pills();
+      //Print them to the USB-Serial Monitor
+      print_pills();  
+      //Send the voltage info to the imp
+      send_state();
+      delay(10);
+    }
+  }
 
 }//end loop
 
@@ -115,7 +121,9 @@ void send_state() {
       }//end x
   }//end y
   //Serial.print(send_number,BIN);Serial.print(" ");Serial.println(send_number);
+  Serial.println(send_number);
   electricimpSerial.write(send_number);
+  electricimpSerial.write(111);
   delay(10);
 }//end send voltage
 /****************************************END Connection Functions*****************************/
