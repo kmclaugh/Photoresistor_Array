@@ -1,0 +1,56 @@
+local local_pill_status=151;
+local time_string="start";
+local previous_time="start";
+
+function device_init(){
+    local test = 1
+    device.send("check",test); 
+    
+    // when we get a "pill_states" message from the device
+    device.on("pill_states", function(pill_status) {
+        local_pill_status = pill_status;
+        local read_time = time();
+        time_string = read_time.tostring();
+        server.log(local_pill_status);
+        local_pill_status = pill_status;
+        
+    });//end device response
+    server.log(pill_status);
+}//end device init
+
+device.onconnect(device_init);
+
+
+function requestHandler(req, resp) {
+    try {
+        //server.log(device.isconnected())
+        //if (device.isconnected()){
+            local test = 1
+            device.send("check",test); 
+            // when we get a "pill_states" message from the device
+            device.on("pill_states", function(pill_status) {
+                local_pill_status = pill_status;
+                local read_time = time();
+                time_string = read_time.tostring();
+                server.log(local_pill_status);
+                local_pill_status = pill_status;
+                // send the time of the check and the most recent pill status
+                local send_data = time_string + " " + local_pill_status.tostring();
+                resp.send(200, send_data);
+  
+            });//end device response
+        //}//end if
+        //else{
+          //  server.log(device.isconnected())
+            //resp.send(200, "Case is Disconnected");
+        //}//end else
+    }//end try
+    
+  catch (ex) {
+    // if an error occured, send a 500 Internal Server Error
+    resp.send(500, "Internal Server Error: " + ex);
+  }//end exception
+  
+};//end request handler
+
+http.onrequest(requestHandler);

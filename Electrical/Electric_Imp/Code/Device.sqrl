@@ -1,23 +1,37 @@
-// electric imp device code
-server.log("Device Started");
- 
+imp.configure("Pill Status Check", [], []);
+
+local pill_status=151;
+
 arduino <- hardware.uart57;
  
 function arduinoData() {
-    local b = arduino.read();
-    while(b != -1) {
-        server.log(b);
-        b = arduino.read();
+    local arduino_data = arduino.read();
+    while(arduino_data != -1) {
+        if (arduino_data != 111){
+            pill_status = arduino_data;
+        }
+        else{
+            break;
+        }
+        arduino_data = arduino.read();
     }
+    
 }
- 
-arduino.configure(19200, 8, PARITY_NONE, 1, NO_CTSRTS, arduinoData);
- 
- 
-//function blink(state) {
-//    server.log("Setting LED to: " + state);
-//    arduino.write(state);
-//    imp.wakeup(1.0, function() { blink(1-state); });
-//} 
 
-//blink(1);
+ 
+function send_pill_states() {
+    /*send the pill states to the agent*/
+    server.log(pill_status);
+    agent.send("pill_states", pill_status);
+}
+arduino.configure(19200, 8, PARITY_NONE, 1, NO_CTSRTS, arduinoData);
+    
+function check_pills(test) {
+    arduino.write(105);
+    imp.wakeup(1, function() { send_pill_states(); });
+    //imp.wakeup(30.0, function() { check_pills(1); });
+} 
+
+//check_pills(1);
+agent.on("check",check_pills);
+ 
