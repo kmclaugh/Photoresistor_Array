@@ -23,7 +23,7 @@ cp -a . $PHOTO_RES_DIR/Hardware/Circuit/
 
 #Diptrace Files
 cd "$DIPTRACEFILES"
-cd Projects/Photoresistor_Array
+cd Projects/Pill_Case/Photoresistor_Array
 
 #Copying current files to project directory
 cp -a . $PHOTO_RES_DIR/Hardware/Circuit/
@@ -76,7 +76,7 @@ cp -a . $LED_RES_DIR/Hardware/Circuit/
 
 #Diptrace Files
 cd "$DIPTRACEFILES"
-cd Projects/LED_Array
+cd Projects/Pill_Case/LED_Array
 
 #Copying current files to project directory
 cp -a . $LED_RES_DIR/Hardware/Circuit/
@@ -108,8 +108,8 @@ find . -iname "*.py" -exec mv {} Circuit \;
 
 ######################END LED Array###################
 
-#####################Arduino Directory####################
-ARDUINO_DIR=$PILL_CASE/Electrical/Arduino
+#####################Controller Directory####################
+ARDUINO_DIR=$PILL_CASE/Electrical/Controller
 #Arduino Files
 cd $ARDUINO_DIR/Code
 
@@ -122,6 +122,14 @@ cd $ARDUINO_SKETCHBOOK/Pill_Case
 cp -a . $ARDUINO_DIR/Code
 cd $ARDUINO_DIR/Code
 
+
+#Diptrace Files
+cd "$DIPTRACEFILES"
+cd Projects/Pill_Case/Controllers
+
+#Copying current files to project directory
+cp -a . $ARDUINO_DIR/Hardware/Circuit/
+#End Diptrace
 
 ######################Mechanical###############################
 cd $PILL_CASE

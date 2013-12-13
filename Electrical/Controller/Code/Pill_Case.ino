@@ -4,32 +4,33 @@
 #define ARRAY_Y 3
 
 /*************Electric Imp Declarations*********/
-const int Imp_RX = 8;
-const int Imp_TX = 9;
-SoftwareSerial electricimpSerial(Imp_RX,Imp_TX);
+const int EITX_ARX = 2;
+const int EIRX_ATX = 3;
+SoftwareSerial electricimpSerial(EITX_ARX,EIRX_ATX);
 /*************END Electric Imp Declarations*****/
 
-/**********LED Declarations*************************/ 
+/**************Mux Declarations*****************/
 //Select Bits
-int LED_S0=5;
-int LED_S1=6;
-int LED_S2=7;
+int S0=7;
+int S1=8;
+int S2=9;
+/************END Mux Delcarations*****************/
+
+/**********LED Declarations*************************/ 
 //Y outputs
-int LED_Y0=10;
-int LED_Y1=11;
-int LED_Y2=12;
+int LEDY0=12;
+int LEDY1=12;
+int LEDY2=11;
+int LEDY3=10;
 /**********END LED Declarations*************************/ 
 
 /*************LDR Declarations******************/
 #define LDR_COMPARE_VALUE 1
-//Select Bits
-int LDR_S0=2;
-int LDR_S1=3;
-int LDR_S2=4;
 //Return signals
 int LDR_Read0 = A0;
 int LDR_Read1 = A1;
 int LDR_Read2 = A2;
+int LDR_Read3 = A3;
 //Read voltages
 float voltage0_0=0;float voltage1_0=0;
 float voltage0_1=0;float voltage1_1=0;
@@ -60,28 +61,21 @@ void setup() {
   electricimpSerial.begin(19200);    // configure imp serial
   
   //Configure LED Pins
-  pinMode(LED_S0, OUTPUT);
-  pinMode(LED_S1, OUTPUT);
-  pinMode(LED_S2, OUTPUT);  
-  digitalWrite(LED_S0,LOW);
-  digitalWrite(LED_S1,LOW);
-  digitalWrite(LED_S2,LOW);
+  pinMode(S0, OUTPUT);
+  pinMode(S1, OUTPUT);
+  pinMode(S2, OUTPUT);  
+  digitalWrite(S0,LOW);
+  digitalWrite(S1,LOW);
+  digitalWrite(S2,LOW);
   
-  pinMode(LED_Y0, OUTPUT);
-  pinMode(LED_Y1, OUTPUT);
-  pinMode(LED_Y2, OUTPUT);  
-  digitalWrite(LED_Y0,HIGH);
-  digitalWrite(LED_Y1,HIGH);
-  digitalWrite(LED_Y2,HIGH);
+  pinMode(LEDY0, OUTPUT);
+  pinMode(LEDY1, OUTPUT);
+  pinMode(LEDY2, OUTPUT);  
+  digitalWrite(LEDY0,HIGH);
+  digitalWrite(LEDY1,HIGH);
+  digitalWrite(LEDY2,HIGH);
   
-  //Configure LDR Pins
-  pinMode(LDR_S0, OUTPUT);
-  pinMode(LDR_S1, OUTPUT);
-  pinMode(LDR_S2, OUTPUT);  
-  digitalWrite(LDR_S0,LOW);
-  digitalWrite(LDR_S1,LOW);
-  digitalWrite(LDR_S2,LOW);
-  
+ 
 }//end setup
 
 void loop() {
@@ -179,52 +173,52 @@ float check_single_pill(int x, int y){
 void LED_on(int x, int y){
   /*Turns the LED (x,y) on*/
   //Serial.print("A ");Serial.print(x);Serial.print(", ");Serial.println(y);
-  LED_column_switch(x);
+  column_switch(x);
   LED_row_switch(y);
 }//end LED_on
   
-void LED_column_switch(int column_number){
+void column_switch(int column_number){
   /*case statement that turns the given column number on based on the 8:1 mux*/
   switch (column_number) {    
     case 0:
-      digitalWrite(LED_S0,LOW);
-      digitalWrite(LED_S1,LOW);
-      digitalWrite(LED_S2,LOW);
+      digitalWrite(S0,LOW);
+      digitalWrite(S1,LOW);
+      digitalWrite(S2,LOW);
       break;
     case 1:
-      digitalWrite(LED_S0,HIGH);
-      digitalWrite(LED_S1,LOW);
-      digitalWrite(LED_S2,LOW);
+      digitalWrite(S0,HIGH);
+      digitalWrite(S1,LOW);
+      digitalWrite(S2,LOW);
       break;
     case 2:
-      digitalWrite(LED_S0,LOW);
-      digitalWrite(LED_S1,HIGH);
-      digitalWrite(LED_S2,LOW);
+      digitalWrite(S0,LOW);
+      digitalWrite(S1,HIGH);
+      digitalWrite(S2,LOW);
       break;
     case 3:
-      digitalWrite(LED_S0,HIGH);
-      digitalWrite(LED_S1,HIGH);
-      digitalWrite(LED_S2,LOW);
+      digitalWrite(S0,HIGH);
+      digitalWrite(S1,HIGH);
+      digitalWrite(S2,LOW);
       break;
     case 4:
-      digitalWrite(LED_S0,LOW);
-      digitalWrite(LED_S1,LOW);
-      digitalWrite(LED_S2,HIGH);
+      digitalWrite(S0,LOW);
+      digitalWrite(S1,LOW);
+      digitalWrite(S2,HIGH);
       break;
     case 5:
-      digitalWrite(LED_S0,HIGH);
-      digitalWrite(LED_S1,LOW);
-      digitalWrite(LED_S2,HIGH);
+      digitalWrite(S0,HIGH);
+      digitalWrite(S1,LOW);
+      digitalWrite(S2,HIGH);
       break;
     case 6:
-      digitalWrite(LED_S0,LOW);
-      digitalWrite(LED_S1,HIGH);
-      digitalWrite(LED_S2,HIGH);
+      digitalWrite(S0,LOW);
+      digitalWrite(S1,HIGH);
+      digitalWrite(S2,HIGH);
       break;
     case 7:
-      digitalWrite(LED_S0,HIGH);
-      digitalWrite(LED_S1,HIGH);
-      digitalWrite(LED_S2,HIGH);
+      digitalWrite(S0,HIGH);
+      digitalWrite(S1,HIGH);
+      digitalWrite(S2,HIGH);
       break;
   }//end switch
 }//end column switch 
@@ -233,28 +227,28 @@ void LED_row_switch(int row_number){
   /*case statement that turns the given column number on based on the 8:1 mux*/
   switch (row_number) {
     case 0:
-      digitalWrite(LED_Y0,LOW);
-      digitalWrite(LED_Y1,HIGH);
-      digitalWrite(LED_Y2,HIGH);
+      digitalWrite(LEDY0,LOW);
+      digitalWrite(LEDY1,HIGH);
+      digitalWrite(LEDY2,HIGH);
       break;
     case 1:
-      digitalWrite(LED_Y0,HIGH);
-      digitalWrite(LED_Y1,LOW);
-      digitalWrite(LED_Y2,HIGH);
+      digitalWrite(LEDY0,HIGH);
+      digitalWrite(LEDY1,LOW);
+      digitalWrite(LEDY2,HIGH);
       break;
     case 2:
-      digitalWrite(LED_Y0,HIGH);
-      digitalWrite(LED_Y1,HIGH);
-      digitalWrite(LED_Y2,LOW);
+      digitalWrite(LEDY0,HIGH);
+      digitalWrite(LEDY1,HIGH);
+      digitalWrite(LEDY2,LOW);
       break;
   }//end switch
 }//end row switch
 
 void LED_all_off(){
   /*Turns all the LED rows high, thus turning all LEDs off*/
-  digitalWrite(LED_Y0,HIGH);
-  digitalWrite(LED_Y1,HIGH);
-  digitalWrite(LED_Y2,HIGH);
+  digitalWrite(LEDY0,HIGH);
+  digitalWrite(LEDY1,HIGH);
+  digitalWrite(LEDY2,HIGH);
 }//end LED all off
   
 /*****************************************END LED Functions************************************/    
@@ -264,59 +258,12 @@ float LDR_readVoltage(int x, int y) {
   /* Returns the voltage of the given input and output pin. Sets output back to zero*/
   int sensorValue;
   float voltage;
-  LDR_column_switch(x);
+  column_switch(x);
   delay(10);
   sensorValue = analogRead(y);
   voltage = sensorValue * (5.0 / 1024.0);
   delay(10);
   return(voltage);
 }//end LDR_readVoltage
-
-void LDR_column_switch(int column_number){
-  /*case statement that turns the given column number on based on the 8:1 mux*/
-  switch (column_number) {
-    case 0:
-      digitalWrite(LDR_S0,LOW);
-      digitalWrite(LDR_S1,LOW);
-      digitalWrite(LDR_S2,LOW);
-      break;
-    case 1:
-      digitalWrite(LDR_S0,HIGH);
-      digitalWrite(LDR_S1,LOW);
-      digitalWrite(LDR_S2,LOW);
-      break;
-    case 2:
-      digitalWrite(LDR_S0,LOW);
-      digitalWrite(LDR_S1,HIGH);
-      digitalWrite(LDR_S2,LOW);
-      break;
-    case 3:
-      digitalWrite(LDR_S0,HIGH);
-      digitalWrite(LDR_S1,HIGH);
-      digitalWrite(LDR_S2,LOW);
-      break;
-    case 4:
-      digitalWrite(LDR_S0,LOW);
-      digitalWrite(LDR_S1,LOW);
-      digitalWrite(LDR_S2,HIGH);
-      break;
-    case 5:
-      digitalWrite(LDR_S0,HIGH);
-      digitalWrite(LDR_S1,LOW);
-      digitalWrite(LDR_S2,HIGH);
-      break;
-    case 6:
-      digitalWrite(LDR_S0,LOW);
-      digitalWrite(LDR_S1,HIGH);
-      digitalWrite(LDR_S2,HIGH);
-      break;
-    case 7:
-      digitalWrite(LDR_S0,HIGH);
-      digitalWrite(LDR_S1,HIGH);
-      digitalWrite(LDR_S2,HIGH);
-      break;
-  }//end switch
-
-}//end column switch 
 
 /*****************************************END LDR Functions***********************************/
