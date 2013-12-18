@@ -2,10 +2,10 @@
 
 #define ARRAY_X 2
 #define ARRAY_Y 3
-
+const int TEST_LED = 6;
 /*************Electric Imp Declarations*********/
-const int EITX_ARX = 2;
-const int EIRX_ATX = 3;
+const int EITX_ARX = 3;
+const int EIRX_ATX = 2;
 SoftwareSerial electricimpSerial(EITX_ARX,EIRX_ATX);
 /*************END Electric Imp Declarations*****/
 
@@ -18,10 +18,10 @@ int S2=9;
 
 /**********LED Declarations*************************/ 
 //Y outputs
-int LEDY0=12;
-int LEDY1=12;
-int LEDY2=11;
-int LEDY3=10;
+int LEDY0=10;
+int LEDY1=11;
+int LEDY2=12;
+int LEDY3=13;
 /**********END LED Declarations*************************/ 
 
 /*************LDR Declarations******************/
@@ -75,7 +75,12 @@ void setup() {
   digitalWrite(LEDY1,HIGH);
   digitalWrite(LEDY2,HIGH);
   
- 
+  pinMode(TEST_LED,OUTPUT);
+  digitalWrite(TEST_LED,HIGH);
+  delay(1000);
+  digitalWrite(TEST_LED,LOW);
+  
+  
 }//end setup
 
 void loop() {
@@ -86,12 +91,14 @@ void loop() {
     Serial.println(recieved_data);
     if (recieved_data == 105){
       Serial.println("Pill Check");
+      digitalWrite(TEST_LED,HIGH);
       check_all_pills();
       //Print them to the USB-Serial Monitor
       print_pills();  
       //Send the voltage info to the imp
       send_state();
-      delay(10);
+      delay(1000);
+      digitalWrite(TEST_LED,LOW);
     }
   }
 
